@@ -50,7 +50,7 @@ print(chunks[10])
 print("\n" , "________________________________________________________________")
 
 
-model_name = "sentence-transformers/all-mpnet-base-v2"
+model_name = "bert-base-multilingual-cased"  #"sentence-transformers/all-mpnet-base-v2"
 
 hf = HuggingFaceEmbeddings(model_name=model_name)
 
