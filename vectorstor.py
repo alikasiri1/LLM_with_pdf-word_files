@@ -7,6 +7,10 @@ from langchain.schema import Document
 from langchain.vectorstores import Chroma
 from langchain.embeddings import HuggingFaceEmbeddings, SentenceTransformerEmbeddings
 from langchain.document_loaders import PyPDFLoader
+
+# import clean_data
+# clean_data.clean_data()
+
 def getText_word(filename):
     doc = docx.Document(filename)
     fullText = []

@@ -79,7 +79,7 @@ def get_fa_word(text):
       d += word
     else:
       d += ' '+word
-  return d.replace(" . " , ". ")
+  return d.replace(" . " , ". ").replace(" - ","")
 
 
 nltk.download('punkt')
@@ -87,12 +87,12 @@ def get_en_words(text):
   tokens = word_tokenize(text)
   filtered_tokens = " ".join([word for word in tokens])
 
-  return filtered_tokens.replace(" . " , ". ")
+  return filtered_tokens.replace(" . " , ". ").replace(" - ","")
 
 
 ################################################################################## remove_content_page
 def remove_content_page(text):
-  list_words = ["Explanation of symbols" , "contents" , "فهرست"]
+  list_words = ["Explanation of symbols" , "contents" , "فهرست" , "Illustrations"]
   for word in list_words:
     if word.lower()  in text.lower():
       return  ""
@@ -171,13 +171,13 @@ def clean_data(text):
     text = remove_urls(text)
     text = Lemmatize_en_text(text)
 
-    return text
+    return text , "en"
   elif detect(text) == 'fa':
     text = get_fa_word(text)
     text = remove_content_page(text)
     text = remove_urls(text)
 
-    return text
+    return text , "fa"
   else:
     print("language is : " + detect(text))
 
