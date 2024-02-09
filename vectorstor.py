@@ -42,6 +42,7 @@ from langchain.document_loaders import DirectoryLoader
 loader = DirectoryLoader('data', glob="./*.pdf", loader_cls=PyPDFLoader)
 
 documents = loader.load()
+# print(documents)
 chunks = text_splitter.split_documents(documents)
 print(chunks[10])
 # chunks = text_splitter.create_documents([pdf_text])
@@ -54,7 +55,7 @@ model_name = "bert-base-multilingual-cased"  #"sentence-transformers/all-mpnet-b
 
 hf = HuggingFaceEmbeddings(model_name=model_name)
 
-# db = Chroma.from_documents(chunks, OpenAIEmbeddings())
+
 
 ############################################################
 ############################### for the first time that you want to stor into the chroma
@@ -63,7 +64,7 @@ persist_directory = 'db'
 ## Here is the nmew embeddings being used
 embedding = hf
 
-db  = Chroma.from_documents(documents=chunks, 
+db  = Chroma.from_documents(documents=chunks,   # db = Chroma.from_documents(chunks, OpenAIEmbeddings())
                                  embedding=embedding,
                                  persist_directory=persist_directory)
 
