@@ -12,55 +12,6 @@ from hazm import stopwords_list, word_tokenize
 
 
 
-en_text = """ enPuls Pro - in brief 5
-
-Page  5
- What is enPuls Pro? A state of the art therapeutic massager.
-
-Radial pulse therapy Radial Pulse Therapy is a procedure for relief of minor muscle aches and
-pains and for temporary increas e in local blood circulation.
-
-What does
-enPuls Pro do? The handpiece contains a projectile  that is accelerated through the
-electromagnetic transfer of kinetic energy. This kinetic energy is transferred
-into impact energy in the applicator head. The impact energy delivered from
-the applicator head results in radial pul ses developed in the target tissue.
-With enPulsPro, a maximum penetrati on depth of about 35 mm into human
-tissue can be achieved.
-
-How does the
-enPuls Pro generate
-radial pulses? An electromagnetic field is generated at the rear end of the handpiece by
-means of a coil.
-A projectile is accelerated through t he field crashing into the applicator head
-at the front of the handpiece generating radial pulses t hat spread radially into
-the tissue.
-
-Why  enPuls Pro? The innovative technology allows for a compact design without a
-compressor.
-The modern multi-color display, showin g all therapy-relevant  parameters, the
-modern touch operation and the ab ility to simultaneously connect 2
-handpieces.
-Customisable program startup settings and a clear, simple menu offer
-maximum convenience for the user.
-
-Adjustable frequencies and various appl icators enable the therapy to be
-tailored to the respective status of the patient.
-
-What else does
-enPuls Pro offer? An integrated VAS scale provides an orie nting overview of the chronological
-progression and success of the therapy.
-
-Intended use enPulsPro is an electromagnetic t herapy system for the generation and
-application of radial pulses in orthopedics and physiotherapy.
-
-Note: The application of the device is reserv ed to medical professionals (such as
-physicians, therapists and health paraprofessionals).
-
- enPulsPro has been constructed and desi gned solely for the application on
-superficial skin problems in humans.
-
- The device is intended for use mechanical massage devices."""
 ################################################################################## Removal of Punctuations
 
 def remove_punctuation(text):
@@ -98,7 +49,8 @@ def remove_content_page(text , based_on_Rareword = True):
      txt = text
   for word in list_words:
     if word.lower()  in txt.lower():
-      return  ""
+      print("remove" , word +" page")
+      return  " "
   return text
 
 
@@ -125,7 +77,7 @@ def Lemmatize_en_text(text): # english
 nltk.download('punkt')
 nltk.download('stopwords')
 # Sample English text
-english_text = "NLTK is a leading platform for building Python programs to work with human language data."
+# english_text = "NLTK is a leading platform for building Python programs to work with human language data."
 def remove_en_stopwords(text):
     tokens = word_tokenize(text) 
 
@@ -139,7 +91,7 @@ def remove_en_stopwords(text):
 
 
 # Sample Persian text
-persian_text = "پردازش زبان‌های طبیعی یکی از حوزه‌های مهم در علوم کامپیوتر است."
+# persian_text = "پردازش زبان‌های طبیعی یکی از حوزه‌های مهم در علوم کامپیوتر است."
 def remove_fa_stopwords(text):
     tokens = word_tokenize(text)
 
@@ -176,29 +128,42 @@ def remove_rarewords(text):
 
 
 ################################################################################## clean data
-def clean_data(text , Remove_Urls = True , Lemmatize= True ):
+def clean_data(text , Remove_Urls = True , Lemmatize= True, stopwords=False):
   text =  remove_punctuation(text)
-
-  if detect(text) == 'en':
+  language = detect(text)
+  if language == 'en':
     text = get_en_words(text)
     text = remove_content_page(text)
+
     if Remove_Urls:
       text = remove_urls(text)
+      
+    if stopwords:
+       text = remove_en_stopwords(text)
+
     if Lemmatize:
       text = Lemmatize_en_text(text)
-
+    
     return text , "en"
-  elif detect(text) == 'fa':
+  elif language == 'fa':
     text = get_fa_word(text)
     text = remove_content_page(text)
+
     if Remove_Urls:
       text = remove_urls(text)
+
+    if stopwords:
+       text = remove_fa_stopwords(text)
+
     if Lemmatize:
       text = Lemmatize_fa_text(text)
-
+    
     return text , "fa"
   else:
-    print("language is : " + detect(text))
-    return None
+    print("language is : " + language)
+    # print(text)
+    
+    return " " , language
 
-print(clean_data(en_text))
+# print(clean_data(en_text))
+# print(Lemmatize_fa_text("ناد42کجت"))
